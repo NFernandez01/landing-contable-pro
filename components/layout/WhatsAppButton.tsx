@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
+import { analyticsConfig, buildWhatsappUrl } from '@/lib/analytics';
 
 export default function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,8 +28,10 @@ export default function WhatsAppButton() {
     };
   }, []);
 
-  const whatsappNumber = '5491112345678'; // Replace with actual number
-  const message = encodeURIComponent('Hola! Me gustaría hacer una consulta.');
+  const whatsappUrl = buildWhatsappUrl(
+    analyticsConfig.whatsappNumber,
+    'Hola! Me gustaría hacer una consulta.'
+  );
 
   return (
     <AnimatePresence>
@@ -64,9 +67,13 @@ export default function WhatsAppButton() {
 
           {/* WhatsApp Button */}
           <motion.a
-            href={`https://wa.me/${whatsappNumber}?text=${message}`}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            data-track-source="floating_whatsapp"
+            data-track-location="floating_button"
+            data-track-label="whatsapp_floating"
+            data-track-cta="true"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="flex items-center justify-center w-16 h-16 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full shadow-2xl transition-colors group"
