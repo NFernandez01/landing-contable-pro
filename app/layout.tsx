@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
@@ -43,7 +44,9 @@ export default function RootLayout({
         <Header />
         {children}
         <WhatsAppButton />
-        <TrackingProvider />
+        <Suspense fallback={null}>
+          <TrackingProvider />
+        </Suspense>
 
         {gaMeasurementId ? (
           <>
