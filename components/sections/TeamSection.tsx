@@ -130,6 +130,10 @@ export default function TeamSection() {
           </p>
           <a
             href="#contacto"
+            data-track-source="team_schedule"
+            data-track-location="team_section"
+            data-track-label="agenda_reunion"
+            data-track-cta="true"
             className="inline-flex items-center gap-2 bg-[#3b82f6] hover:bg-[#2563eb] text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl"
           >
             Agendá una reunión

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
+import { analyticsConfig, buildWhatsappUrl } from '@/lib/analytics';
 
 export default function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,8 +28,10 @@ export default function WhatsAppButton() {
     };
   }, []);
 
-  const whatsappNumber = '5491112345678'; // Replace with actual number
-  const message = encodeURIComponent('Hola! Me gustaría hacer una consulta.');
+  const whatsappUrl = buildWhatsappUrl(
+    analyticsConfig.whatsappNumber,
+    'Hola! Me gustaría hacer una consulta.'
+  );
 
   return (
     <AnimatePresence>
@@ -43,10 +46,10 @@ export default function WhatsAppButton() {
           <AnimatePresence>
             {showTooltip && (
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                className="absolute bottom-full right-0 mb-3 bg-white rounded-xl shadow-premium p-4 max-w-xs"
+                exit={{ opacity: 0, x: -20 }}
+                className="absolute right-full top-0 mr-4 bg-white rounded-xl shadow-premium p-4 max-w-xs whitespace-nowrap"
               >
                 <button
                   onClick={() => setShowTooltip(false)}
@@ -55,18 +58,22 @@ export default function WhatsAppButton() {
                   <X className="w-4 h-4" />
                 </button>
                 <p className="text-sm text-[#0f172a] font-medium">
-                  ¿Necesitás ayuda? Escribinos por WhatsApp
+                  ¿Necesitás ayuda? <br /> Escribinos por WhatsApp
                 </p>
-                <div className="absolute bottom-0 right-6 transform translate-y-1/2 rotate-45 w-3 h-3 bg-white"></div>
+                <div className="absolute left-full top-1/2 -translate-y-1/2 w-3 h-3 bg-white" style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)' }}></div>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* WhatsApp Button */}
           <motion.a
-            href={`https://wa.me/${whatsappNumber}?text=${message}`}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            data-track-source="floating_whatsapp"
+            data-track-location="floating_button"
+            data-track-label="whatsapp_floating"
+            data-track-cta="true"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="flex items-center justify-center w-16 h-16 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full shadow-2xl transition-colors group"

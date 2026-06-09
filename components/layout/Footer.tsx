@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Globe, Share2, Link2 } from 'lucide-react';
 import Container from '../ui/Container';
 
@@ -50,6 +49,10 @@ export default function Footer() {
                     key={index}
                     href={social.href}
                     aria-label={social.label}
+                    data-track-source={`footer_social_${social.label.toLowerCase()}`}
+                    data-track-location="footer"
+                    data-track-label={`footer_${social.label.toLowerCase()}`}
+                    data-track-cta="true"
                     className="w-10 h-10 rounded-lg bg-white/10 hover:bg-[#3b82f6] flex items-center justify-center transition-colors"
                   >
                     <social.icon className="w-5 h-5" />
@@ -66,6 +69,9 @@ export default function Footer() {
                   <li key={index}>
                     <a
                       href={link.href}
+                      data-track-source={`footer_nav_${link.href.replace('#', '')}`}
+                      data-track-location="footer_nav"
+                      data-track-label={`footer_${link.label.toLowerCase().replace(/\s+/g, '_')}`}
                       className="text-[#cbd5e1] hover:text-[#3b82f6] transition-colors"
                     >
                       {link.label}
@@ -94,6 +100,10 @@ export default function Footer() {
                 <li>
                   <a
                     href="tel:+5491112345678"
+                    data-track-source="footer_phone"
+                    data-track-location="footer_contact"
+                    data-track-label="footer_phone"
+                    data-track-cta="true"
                     className="flex items-start gap-3 text-[#cbd5e1] hover:text-[#3b82f6] transition-colors"
                   >
                     <Phone className="w-5 h-5 mt-0.5 flex-shrink-0" />
@@ -103,6 +113,10 @@ export default function Footer() {
                 <li>
                   <a
                     href="mailto:info@estudiocontable.com.ar"
+                    data-track-source="footer_email"
+                    data-track-location="footer_contact"
+                    data-track-label="footer_email"
+                    data-track-cta="true"
                     className="flex items-start gap-3 text-[#cbd5e1] hover:text-[#3b82f6] transition-colors break-all"
                   >
                     <Mail className="w-5 h-5 mt-0.5 flex-shrink-0" />

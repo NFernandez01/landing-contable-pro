@@ -1,9 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, MessageCircle, Calendar } from 'lucide-react';
+import { Check, MessageCircle, Calendar } from 'lucide-react';
 import Button from '../ui/Button';
 import Container from '../ui/Container';
+import { analyticsConfig, buildWhatsappUrl, trackWhatsappClick } from '@/lib/analytics';
 
 export default function HeroSection() {
   const benefits = [
@@ -11,6 +12,20 @@ export default function HeroSection() {
     'Respuesta en menos de 24hs',
     'Primera consulta sin cargo',
   ];
+
+  const handleHeroWhatsappClick = () => {
+    const whatsappUrl = buildWhatsappUrl(
+      analyticsConfig.whatsappNumber,
+      'Hola! Quiero hablar con un especialista.'
+    );
+
+    trackWhatsappClick('hero_whatsapp', 'hero');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleScheduleClick = () => {
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="inicio" className="relative min-h-screen flex items-center pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-gradient-to-br from-[#f8fafc] via-white to-[#f1f5f9]">
@@ -88,6 +103,11 @@ export default function HeroSection() {
                 variant="primary"
                 size="lg"
                 icon={<MessageCircle className="w-5 h-5" />}
+                onClick={handleHeroWhatsappClick}
+                data-track-source="hero_whatsapp"
+                data-track-location="hero"
+                data-track-label="hablar_por_whatsapp"
+                data-track-cta="true"
               >
                 Hablar por WhatsApp
               </Button>
@@ -95,6 +115,11 @@ export default function HeroSection() {
                 variant="outline"
                 size="lg"
                 icon={<Calendar className="w-5 h-5" />}
+                onClick={handleScheduleClick}
+                data-track-source="hero_schedule"
+                data-track-location="hero"
+                data-track-label="agendar_consulta"
+                data-track-cta="true"
               >
                 Agendar consulta
               </Button>

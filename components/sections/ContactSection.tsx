@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Send, Phone, Mail, MapPin, CheckCircle2, Clock } from 'lucide-react';
 import Container from '../ui/Container';
 import Button from '../ui/Button';
+import { analyticsConfig, buildWhatsappUrl, trackFormSubmit } from '@/lib/analytics';
 
 export default function ContactSection() {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success'>('idle');
@@ -22,6 +23,9 @@ export default function ContactSection() {
     
     // Simulate form submission
     setTimeout(() => {
+      trackFormSubmit('contact_form', {
+        service: formData.service || 'not_selected',
+      });
       setFormStatus('success');
       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
       setTimeout(() => setFormStatus('idle'), 5000);
@@ -31,6 +35,11 @@ export default function ContactSection() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const quickWhatsappUrl = buildWhatsappUrl(
+    analyticsConfig.whatsappNumber,
+    'Hola! Quiero asesoramiento contable y juridico.'
+  );
 
   const contactInfo = [
     {
@@ -100,6 +109,10 @@ export default function ContactSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
+                    data-track-source={`contact_${item.title.toLowerCase().replace(/\s+/g, '_')}`}
+                    data-track-location="contact_info"
+                    data-track-label={`contact_${item.title.toLowerCase().replace(/\s+/g, '_')}`}
+                    data-track-cta={item.href !== '#' ? 'true' : undefined}
                     className="flex items-start gap-4 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
                   >
                     <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#1e40af] flex items-center justify-center flex-shrink-0">
@@ -121,9 +134,13 @@ export default function ContactSection() {
                 Escribinos por WhatsApp y te respondemos al instante
               </p>
               <a
-                href="https://wa.me/5491112345678"
+                href={quickWhatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-source="contact_section_whatsapp"
+                data-track-location="contact_section"
+                data-track-label="contact_section_whatsapp"
+                data-track-cta="true"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#20BA5A] text-white font-medium rounded-lg transition-colors shadow-lg"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -247,6 +264,10 @@ export default function ContactSection() {
                     fullWidth
                     icon={<Send className="w-5 h-5" />}
                     disabled={formStatus === 'sending'}
+                    data-track-source="contact_form_submit"
+                    data-track-location="contact_form"
+                    data-track-label="enviar_consulta"
+                    data-track-cta="true"
                     className="mt-6"
                   >
                     {formStatus === 'sending' ? 'Enviando...' : 'Enviar consulta'}

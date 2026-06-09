@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Phone, Mail } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Button from '../ui/Button';
 
 export default function Header() {
@@ -26,6 +26,10 @@ export default function Header() {
     { label: 'Contacto', href: '#contacto' },
   ];
 
+  const handlePrimaryCtaClick = () => {
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -40,9 +44,15 @@ export default function Header() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center -ml-3 sm:-ml-4 lg:-ml-6"
+            className="flex items-center px-2 sm:px-3 lg:px-4 mr-4 lg:mr-8"
           >
-            <a href="#inicio" className="text-2xl font-bold text-[#0f172a] hover:text-[#1e40af] transition-colors">
+            <a
+              href="#inicio"
+              data-track-source="header_logo"
+              data-track-location="header"
+              data-track-label="logo_inicio"
+              className="text-2xl font-bold text-[#0f172a] hover:text-[#1e40af] transition-colors"
+            >
               <span className="gradient-text">Estudio</span> Contable
             </a>
           </motion.div>
@@ -56,6 +66,9 @@ export default function Header() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
+                data-track-source={`header_nav_${item.href.replace('#', '')}`}
+                data-track-location="header_nav"
+                data-track-label={`header_${item.label.toLowerCase().replace(/\s+/g, '_')}`}
                 className="text-[#0f172a] hover:text-[#1e40af] font-medium transition-colors"
               >
                 {item.label}
@@ -65,7 +78,15 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="primary" size="sm">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handlePrimaryCtaClick}
+              data-track-source="header_consulta"
+              data-track-location="header"
+              data-track-label="consulta_gratis_header"
+              data-track-cta="true"
+            >
               Consulta Gratis
             </Button>
           </div>
@@ -93,13 +114,25 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
+                  data-track-source={`mobile_nav_${item.href.replace('#', '')}`}
+                  data-track-location="mobile_nav"
+                  data-track-label={`mobile_${item.label.toLowerCase().replace(/\s+/g, '_')}`}
                   className="text-[#0f172a] hover:text-[#1e40af] font-medium py-2 transition-colors"
                 >
                   {item.label}
                 </a>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-[#e2e8f0]">
-                <Button variant="primary" size="md" fullWidth>
+                <Button
+                  variant="primary"
+                  size="md"
+                  fullWidth
+                  onClick={handlePrimaryCtaClick}
+                  data-track-source="mobile_consulta"
+                  data-track-location="mobile_menu"
+                  data-track-label="consulta_gratis_mobile"
+                  data-track-cta="true"
+                >
                   Consulta Gratis
                 </Button>
               </div>

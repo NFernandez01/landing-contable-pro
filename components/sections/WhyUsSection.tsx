@@ -3,8 +3,14 @@
 import { motion } from 'framer-motion';
 import { Heart, Zap, Shield, Users, Award, Target } from 'lucide-react';
 import Container from '../ui/Container';
+import { analyticsConfig, buildWhatsappUrl } from '@/lib/analytics';
 
 export default function WhyUsSection() {
+  const whatsappUrl = buildWhatsappUrl(
+    analyticsConfig.whatsappNumber,
+    'Hola! Quiero recibir asesoramiento profesional.'
+  );
+
   const reasons = [
     {
       icon: Heart,
@@ -96,6 +102,10 @@ export default function WhyUsSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="#contacto"
+              data-track-source="whyus_schedule"
+              data-track-location="whyus_section"
+              data-track-label="agendar_consulta_gratis"
+              data-track-cta="true"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b82f6] text-white font-medium rounded-lg hover:bg-[#2563eb] transition-colors shadow-lg"
             >
               Agendar consulta gratis
@@ -103,9 +113,13 @@ export default function WhyUsSection() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="https://wa.me/5491112345678"
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
+              data-track-source="whyus_whatsapp"
+              data-track-location="whyus_section"
+              data-track-label="escribinos_whatsapp"
+              data-track-cta="true"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-[#1e40af] text-[#1e40af] font-medium rounded-lg hover:bg-[#1e40af] hover:text-white transition-colors"
             >
               Escribinos por WhatsApp
