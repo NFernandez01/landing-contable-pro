@@ -44,7 +44,7 @@ export default function Header() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center -ml-3 sm:-ml-4 lg:-ml-6"
+            className="flex items-center px-2 sm:px-3 lg:px-4 mr-4 lg:mr-8"
           >
             <a
               href="#inicio"

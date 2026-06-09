@@ -1,10 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import TrackingProvider from "@/components/analytics/TrackingProvider";
 import { analyticsConfig } from "@/lib/analytics";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#1e40af",
+};
 
 export const metadata: Metadata = {
   title: "Estudio Contable y Jurídico | Asesoramiento Profesional en Argentina",
@@ -22,8 +28,6 @@ export const metadata: Metadata = {
     title: "Estudio Contable y Jurídico",
     description: "Asesoramiento profesional para tu empresa",
   },
-  viewport: "width=device-width, initial-scale=1",
-  themeColor: "#1e40af",
 };
 
 export default function RootLayout({
